@@ -3,66 +3,93 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class parser
 {
 	public static void main(String[] args) throws IOException 
 	{
+        //Scanner file name
+        //Scanner input token strings
 		FileReader fr = new FileReader("CFG.txt");
 		BufferedReader br = new BufferedReader(fr);
-		
-		String line;
-        /*tempstring;
-        String[] tempArray= new String[4];
-        ArrayList myList = new ArrayList();
-        int i=0;
+        ArrayList rulnum = new ArrayList();
+        ArrayList lefths = new ArrayList();
+        ArrayList righths = new ArrayList();
+        String line;
+        int  count = 1;
         while((line = br.readLine())!=null)
         {
-            tempstring = line; 
-         
-            tempArray = tempstring.split("\\s");
-             
-            for(i=0;i< tempArray.length;i++)
-			{          
-                  myList.add(tempArray[i]);
-            }
-        }
-        
-        int k = myList.size()/4;
-        int count=0;
-        double[][] trans_array = new double[k][4];
-        
-        for(int x=0;x<myList.size()/4;x++)
-        {
-            for(int y=0;y<4;y++)
-            {
-                trans_array[x][y]=Double.parseDouble((String) myList.get(count));
-                count++;
-            }
-        }*/
-        
-        /*
-        if(trans_array[][].equals(>))
-        if(trans_array[][].equals(|))
-        if(trans_array[][].equals(lamda))*/
-
-		while((line = br.readLine())!=null)
-        {
-            char rulnum=line.charAt(0);
-            //System.out.println(rulnum);
-            String line2=line.substring(1,line.length()).trim();
-           
-            String delimiter=">,|";
-            StringTokenizer tokens = new StringTokenizer(line2,delimiter);
+            String[] token = line.split(" ");
+            rulnum.add(token[0]);
+            if(!(token[1].equals("|")))
+                lefths.add(token[1]);
+       
+            boolean right=false;
+            StringTokenizer tokens = new StringTokenizer(line," ");
             while(tokens.hasMoreTokens()){
-                System.out.println(tokens.nextToken().trim());
+                String a=tokens.nextToken();
+                if(right){
+                    righths.add(a);
+                }
+                    
+                if(a.equals(">")||a.equals("|")){
+                    right=true;
+                    if(a.equals("|")){
+                        righths.add("|");
+                    }
+                }
             }
-            /*String[] token=line2.split(">|\\|");
-            for(int i = 0; i < token.length; i++){ 
-                System.out.println(token[i]);
-            }*/
+            righths.add(count);
+            count ++;
         }
-
+        /*System.out.println(rulnum);
+        System.out.println(lefths);
+        System.out.println(righths);*/
+        findfirstset(rulnum,lefths,righths);
 		fr.close();
 	}
+
+    public static void findfirstset(ArrayList rulnum,ArrayList<String> lefths,ArrayList<String> righths)
+    {
+        int index=0,newindex;
+        String a1="";
+        ArrayList Ters = new ArrayList();
+        //int temp = 1; 
+        for(int temp=1;temp<rulnum.size();temp++){ //temp=rule num
+            
+            for(int j=0;j<righths.indexOf(temp);j++){ //j=search  num
+                a1 += righths.get(j);
+                a1 += " ";
+            }
+        }        
+
+        for(int i=0;i<lefths.size();i++){
+            String[] a2=a1.split("\\s+");   //get the first item of righthandside
+            if(a2[0].equals(lefths.get(i))) //determine whether there is a matched nonterminal
+                a1=a1.replaceAll(a2[0], RHS);  //need to replace the RHS of some item
+
+            int k=righths.indexOf(temp)+1; //temp value?
+            for(int j=k;j<righths.indexOf(temp);j++){ 
+                b1 += righths.get(j);
+                b1 += " ";
+
+                if(righths.get(k).equals("|")){        
+                   for(int j=k;j<righths.indexOf(++temp);j++){    
+                        c1 += righths.get(j);
+                        c1 += " ";
+                    }               
+                }
+            }              
+            /*if(a1.startsWith(lefths.get(i)))
+                a1=a1.replaceAll(a1.substring(0),"hi");*/
+            /*else 
+                Ters.add(a1.substring(0));*/
+                System.out.println(a1);
+        }
+
+        System.out.println(a1);
+        //System.out.println(Ters);
+    }
 }
