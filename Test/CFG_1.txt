@@ -1,0 +1,9 @@
+1 S > A C $
+2 B > b B
+3 | lamda
+4 C > c
+5 | lamda
+6 Q > q
+7 | lamda
+8 A > a B C d
+9 | B Q

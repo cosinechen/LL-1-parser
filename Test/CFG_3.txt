@@ -1,0 +1,7 @@
+1 Start > E $
+2 E > v Tail
+3 | Prefix ( E )
+4 Tail > + E
+5 | lamda
+6 Prefix > f
+7 | lamda

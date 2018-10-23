@@ -1,0 +1,7 @@
+1 Start > Values $
+2 Values > num
+3 | lparen Expr rparen
+4 Expr > plus Values Values
+5 | prod Value
+6 Value > Values Value
+7 | lamda

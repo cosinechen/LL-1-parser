@@ -1,0 +1,8 @@
+1 S > A $
+2 A > lp B rp
+3 | num
+4 | lamda
+5 B > prod C
+6 | plus A prod A
+7 C > A plus C
+8 | lamda
